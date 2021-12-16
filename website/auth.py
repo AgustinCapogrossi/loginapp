@@ -25,6 +25,55 @@ def login():
             flash("Email does not exst.", category = "error")
     return render_template("login.html",user = current_user)
 
+@auth.route("/delete", methods=["GET", "POST"])
+@login_required
+def delete():
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    user = User.query.filter_by(email = email).first()
+    if user:
+        if check_password_hash(user.password,password):
+            flash("Account successfully deleted!", category = "success")
+            db.session.delete(user)
+            db.session.commit()
+            return redirect(url_for("login"))
+        else:
+            flash("Either password or email are incorrect", category = "error")
+    else:
+       flash("Email does not exst.", category = "error")
+    return render_template("delete.html", user= current_user)
+
+@auth.route("/update", methods=["GET", "POST"])
+@login_required
+def update():
+    if request.method == "POST":
+        email = request.form.get("email")
+        name = request.form.get("name")
+        last_name = request.form.get("last_name")
+        dni = request.form.get("dni")
+        password = request.form.get("password")
+
+        if(len(email) < 4):
+            flash("Email must be greater than 3 characters", category= "error")
+        elif len(name) < 2:
+            flash("Name must be greater than 1 characters", category= "error")
+        elif len(password) < 6:
+            flash("Password must be at least 6 characters", category= "error")
+        else:
+            current_user.email = email 
+            db.session.commit()
+            current_user.name = name
+            db.session.commit() 
+            current_user.last_name = last_name
+            db.session.commit() 
+            current_user.dni = dni
+            db.session.commit() 
+            current_user.password = generate_password_hash(password, method = "sha256") 
+            db.session.commit()
+            flash("Account updated", category= "success")
+            return redirect(url_for("views.home"))
+    return render_template("update.html", user = current_user)
 
 @auth.route("/logout")
 @login_required
@@ -57,7 +106,7 @@ def signup():
             new_user = User(email=email,password=generate_password_hash(password, method = "sha256"),name=name,last_name=last_name,dni=dni)
             db.session.add(new_user)
             db.session.commit()
-            login_user(user,remember=True)
+            login_user(new_user,remember=True)
             flash("Account created", category= "success")
             return redirect(url_for("views.home"))
     return render_template("signup.html", user = current_user)

@@ -11,3 +11,10 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(150))
     dni = db.Column(db.Integer, unique = True)
     date= db.Column(db.DateTime(timezone=True),default=func.now())
+class Client(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150),unique=True)
+    name = db.Column(db.String(150))
+    last_name = db.Column(db.String(150))
+    dni = db.Column(db.Integer, unique = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))

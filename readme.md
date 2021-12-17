@@ -38,9 +38,12 @@ loginapp
     ╠═/website
     ║ ╠═/templates
     ║ ║ ╠═base.html
+    ║ ║ ╠═delete.html
     ║ ║ ╠═home.html
     ║ ║ ╠═login.html
-    ║ ║ ╚═signup.html
+    ║ ║ ╠═restore.html
+    ║ ║ ╠═signup.html
+    ║ ║ ╚═update.html
     ║ ╠═__init__.py
     ║ ╠═auth.py
     ║ ╠═models.py

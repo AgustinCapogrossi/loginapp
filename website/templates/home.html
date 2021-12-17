@@ -1,2 +1,2 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%} This is the home page {% endblock %} }
+%} {% for user in list_users %} {{ user[0] }} {% endfor %} {% endblock %} }

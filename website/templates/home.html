@@ -1,2 +1,16 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%} {% for user in list_users %} {{ user[0] }} {% endfor %} {% endblock %} }
+%}
+<form method="POST">
+  <button type="submit" class="btn btn-primary">Filter DNI</button>
+</form>
+{% for user in list_users %}
+<ul class="list-group">
+  <li class="list-group-item list-group-item-info">
+    <br />
+    <h3 align="center">
+      {{"User:" + user[0] + " " +user[1] + " | " + "DNI:" + user[2] + " | "
+      +user[3] }}
+    </h3>
+  </li>
+</ul>
+{% endfor %} {% endblock %}

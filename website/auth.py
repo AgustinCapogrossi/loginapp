@@ -33,16 +33,23 @@ def login():
 def restore():
     if request.method == "POST":
         email = request.form.get("email")
+        dni = request.form.get("dni")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
 
         user = User.query.filter_by(email = email).first()
+        user2 = User.query.filter_by(dni = dni).first()
         if (user.email == email):
-            user.password = generate_password_hash(password1, method = "sha256")
-            db.session.commit()
-            flash("Account updated", category= "success")
-            return redirect(url_for("auth.login"))
-        elif(password1 != password2):
+            if(str(user2.dni) == str(dni)):
+                user.password = generate_password_hash(password1, method = "sha256")
+                db.session.commit()
+                flash("Account updated", category= "success")
+                return redirect(url_for("auth.login"))
+            else:
+                flash("Incorrect DNI.", category = "error")
+        else:
+            flash("User does not exist.", category = "error")
+        if(password1 != password2):
             flash("Password does not match.", category = "error")
         elif(len(email)<5):
             flash("Email is too short", category = "error")

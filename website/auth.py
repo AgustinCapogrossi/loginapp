@@ -10,11 +10,14 @@ auth = Blueprint("auth", __name__)
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        #Obtener la información del post
         email = request.form.get("email")
         password = request.form.get("password")
-
+        #Filtrar solo al usuario con el email ingresado
         user = User.query.filter_by(email = email).first()
+        #Revisar si existe
         if user:
+            #Revisar si es su contraseña
             if check_password_hash(user.password,password):
                 flash("Logged in successfully!", category = "success")
                 login_user(user,remember=True)

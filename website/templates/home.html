@@ -1,15 +1,22 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
 <form method="POST">
-  <button type="submit" class="btn btn-primary">Filter DNI</button>
+  <label for="dni">DNI</label>
+  <input type="Number" id="dni" name="dni" placeholder="Enter DNI" />
+  <button type="submit" class="btn btn-primary">Filter</button>
 </form>
 {% for user in list_users %}
 <ul class="list-group">
   <li class="list-group-item list-group-item-info">
     <br />
     <h3 align="center">
-      {{"User:" + user[0] + " " +user[1] + " | " + "DNI:" + user[2] + " | "
-      +user[3] }}
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">{{"User:" + user[0] + " " +user[1]}}</div>
+          <div class="col-sm">{{ "DNI:" + user[2] }}</div>
+          <div class="col-sm">{{ user[3] }}</div>
+        </div>
+      </div>
     </h3>
   </li>
 </ul>
